@@ -12,6 +12,15 @@ export const useCalendar = () => {
   // 현재 연도와 월에 대한 달력 행렬 계산
   const weeks = useMemo(() => getCalendarMatrix(year, month), [year, month]);
 
+  const selectedWeekIndex = useMemo(() => {
+    return weeks.findIndex((week) =>
+      week.some(
+        (day) =>
+          formatCalendarDay(day.year, day.month, day.day) === selectedDate
+      )
+    );
+  }, [weeks, selectedDate]);
+
   // 날짜 선택 핸들러
   const onSelectDate = (day: CalendarDay) => {
     if (!day.isCurrentMonth) {
@@ -25,6 +34,36 @@ export const useCalendar = () => {
   useEffect(() => {
     setMonth(today.getMonth());
   }, []);
+
+  const goToNextWeek = () => {
+    if (selectedWeekIndex < weeks.length - 1) {
+      const nextWeek = weeks[selectedWeekIndex + 1];
+      if (nextWeek && nextWeek.length > 0) {
+        setSelectedDate(
+          formatCalendarDay(
+            nextWeek[0].year,
+            nextWeek[0].month,
+            nextWeek[0].day
+          )
+        );
+      }
+    }
+  };
+
+  const goToPreviousWeek = () => {
+    if (selectedWeekIndex > 0) {
+      const prevWeek = weeks[selectedWeekIndex - 1];
+      if (prevWeek && prevWeek.length > 0) {
+        setSelectedDate(
+          formatCalendarDay(
+            prevWeek[0].year,
+            prevWeek[0].month,
+            prevWeek[0].day
+          )
+        );
+      }
+    }
+  };
 
   // 이전 달로 이동
   const goToPreviousMonth = () => {
@@ -54,5 +93,8 @@ export const useCalendar = () => {
     onSelectDate,
     goToPreviousMonth,
     goToNextMonth,
+    goToPreviousWeek,
+    goToNextWeek,
+    selectedWeekIndex,
   };
 };
