@@ -1,4 +1,4 @@
-## [[BurnFit] Front-end 과제]입니다.
+## [[BurnFit] Front-end 과제입니다.
 
 1. 4개(홈 / 캘린더 / 라이브러리 / 마이페이지)의 탭을 추가
 <video src="https://github.com/user-attachments/assets/9b2a6065-ba81-4fb5-b226-635ab9cef592.mp4" controls></video>
